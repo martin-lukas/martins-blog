@@ -10,7 +10,7 @@ I'll be trying the methods on an example todo app I prepared. The app looks some
 
 The implementation is very trivial. It looks something like this:
 
-```typescript jsx
+```typescript
 function App() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [newTodo, setNewTodo] = useState<string>("")
@@ -118,11 +118,17 @@ export function deleteAllTodos(): Promise<Response> {
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
-async function fetchAPI(url: string, method: HttpMethod = 'GET', body?: string): Promise<Response> {
+async function fetchAPI(
+  url: string,
+  method: HttpMethod = 'GET',
+  body?: string
+): Promise<Response> {
   return fetch(url, {
     method,
     headers: {
-      ...(method !== 'GET' && { 'Content-Type': 'application/json' })
+      ...(method !== 'GET' && {
+        'Content-Type': 'application/json'
+      })
     },
     body
   })
