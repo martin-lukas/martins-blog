@@ -409,75 +409,80 @@
 <p>I'll be trying the methods on an example todo app I prepared. The app looks something like this:</p>
 <p><img alt="TODO App example" src="../../assets/images/todoapp-usage.gif" /></p>
 <p>The implementation is very trivial. It looks something like this:</p>
-<p>```typescript jsx
-function App() {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [newTodo, setNewTodo] = useState<string>("")</p>
-<p>const [isAppLoading, setAppLoading] = useState(false)
+<pre><code class="language-typescript">function App() {
+  const [todos, setTodos] = useState&lt;Todo[]&gt;([])
+  const [newTodo, setNewTodo] = useState&lt;string&gt;(&quot;&quot;)
+
+  const [isAppLoading, setAppLoading] = useState(false)
   const [isNewLoading, setNewLoading] = useState(false)
   const [isRemoveLoading, setRemoveLoading] = useState(false)
-  const [isRemoveAllLoading, setRemoveAllLoading] = useState(false)</p>
-<p>const removedTodo = useRef<string | null>(null)</p>
-<p>function resetInput() {
+  const [isRemoveAllLoading, setRemoveAllLoading] = useState(false)
+
+  const removedTodo = useRef&lt;string | null&gt;(null)
+
+  function resetInput() {
     setNewTodo('')
-  }</p>
-<p>async function fetchTodos() {
+  }
+
+  async function fetchTodos() {
     setTodos(await getTodos())
-  }</p>
-<p>useEffect(() =&gt; {
+  }
+
+  useEffect(() =&gt; {
     (async () =&gt; {
-      setAppLoading(true)</p>
-<pre><code>  await fetchTodos()
+      setAppLoading(true)
 
-  setAppLoading(false)
-})()
-</code></pre>
-<p>}, [])</p>
-<p>async function submitAddTodo() {
-    setNewLoading(true)</p>
-<pre><code>await addTodo({ id: null, content: newTodo })
-await fetchTodos()
+      await fetchTodos()
 
-setNewLoading(false)
-resetInput()
-</code></pre>
-<p>}</p>
-<p>async function submitDeleteTodo(todo: Todo) {
+      setAppLoading(false)
+    })()
+  }, [])
+
+  async function submitAddTodo() {
+    setNewLoading(true)
+
+    await addTodo({ id: null, content: newTodo })
+    await fetchTodos()
+
+    setNewLoading(false)
+    resetInput()
+  }
+
+  async function submitDeleteTodo(todo: Todo) {
     setRemoveLoading(true)
-    removedTodo.current = todo.id</p>
-<pre><code>await deleteTodo(todo)
-await fetchTodos()
+    removedTodo.current = todo.id
 
-setRemoveLoading(false)
-removedTodo.current = null
-resetInput()
-</code></pre>
-<p>}</p>
-<p>async function submitDeleteAllTodos() {
-    setRemoveAllLoading(true)</p>
-<pre><code>await deleteAllTodos()
-await fetchTodos()
+    await deleteTodo(todo)
+    await fetchTodos()
 
-setRemoveAllLoading(false)
-resetInput()
-</code></pre>
-<p>}</p>
-<p>if (isAppLoading) {
-    return <div className="loader"/>
-  }</p>
-<p>return (
-    &lt;&gt;...
+    setRemoveLoading(false)
+    removedTodo.current = null
+    resetInput()
+  }
+
+  async function submitDeleteAllTodos() {
+    setRemoveAllLoading(true)
+
+    await deleteAllTodos()
+    await fetchTodos()
+
+    setRemoveAllLoading(false)
+    resetInput()
+  }
+
+  if (isAppLoading) {
+    return &lt;div className=&quot;loader&quot;/&gt;
+  }
+
+  return (
+    &lt;&gt;...&lt;/&gt;
   )
-}</p>
-<pre><code>
-I omitted the JSX markup as that's not the point of today's exercise.
-
-I tried to handle all the waiting for API responses in a nice UX-friendly way, but I guess you'll be the judge of that. Although that made a bit of a mess in the component's state.
-
-The todo service functions look something like this:
-
-```typescript
-export interface Todo {
+}
+</code></pre>
+<p>I omitted the JSX markup as that's not the point of today's exercise.</p>
+<p>I tried to handle all the waiting for API responses in a nice UX-friendly way, but I guess you'll be the judge of that. Although that made a bit of a mess in the component's state.</p>
+<p>The todo service functions look something like this:</p>
+<pre><code class="language-typescript">export interface Todo {
   id: string | null;
   content: string;
 }
@@ -506,11 +511,17 @@ export function deleteAllTodos(): Promise&lt;Response&gt; {
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
-async function fetchAPI(url: string, method: HttpMethod = 'GET', body?: string): Promise&lt;Response&gt; {
+async function fetchAPI(
+  url: string,
+  method: HttpMethod = 'GET',
+  body?: string
+): Promise&lt;Response&gt; {
   return fetch(url, {
     method,
     headers: {
-      ...(method !== 'GET' &amp;&amp; { 'Content-Type': 'application/json' })
+      ...(method !== 'GET' &amp;&amp; {
+        'Content-Type': 'application/json'
+      })
     },
     body
   })
