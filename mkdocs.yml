@@ -11,3 +11,4 @@ nav:
   - 'Home': 'index.md'
   - 'Posts':
     - 'Fetching data in React': 'posts/fetching-data-in-react.md'
+    - 'Styled Components with React': 'posts/styled-components-with-react.md'
