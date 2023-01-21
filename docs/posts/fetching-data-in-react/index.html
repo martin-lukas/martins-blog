@@ -12,6 +12,8 @@
         <link rel="prev" href="../..">
       
       
+        <link rel="next" href="../styled-components-with-react/">
+      
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
@@ -303,6 +305,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-example-app" class="md-nav__link">
+    The example app
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#react-query" class="md-nav__link">
     React Query
   </a>
@@ -313,6 +322,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../styled-components-with-react/" class="md-nav__link">
+        Styled Components with React
+      </a>
     </li>
   
 
@@ -351,6 +374,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-example-app" class="md-nav__link">
+    The example app
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#react-query" class="md-nav__link">
     React Query
   </a>
@@ -374,9 +404,122 @@
 
 
 <h1 id="fetching-data-in-react">Fetching data in React</h1>
-<p>I've been developing in React for quite some time now. Usually when I needed to fetch some data, it was fine to create a useEffect hook, fetch it and then set it into a state using the useState hook. However, recently I've been wondering if there is a cleaner way, including error handling and retries. And of counrse there is. There is actually several. Here I'll try to learn more about the possibilities of data fetching in React</p>
+<p>I've been developing in React for quite some time now. Usually when I needed to fetch some data, it was fine to create a <code>useEffect</code> hook, fetch it and then set it into a state using the useState hook. However, recently I've been wondering if there is a cleaner way, including error handling and retries. And of counrse there is. There is actually several. Here I'll try to learn more about the possibilities of data fetching in React</p>
+<h2 id="the-example-app">The example app</h2>
+<p>I'll be trying the methods on an example todo app I prepared. The app looks something like this:</p>
+<p><img alt="TODO App example" src="../../assets/images/todoapp-usage.gif" /></p>
+<p>The implementation is very trivial. It looks something like this:</p>
+<p>```typescript jsx
+function App() {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const [newTodo, setNewTodo] = useState<string>("")</p>
+<p>const [isAppLoading, setAppLoading] = useState(false)
+  const [isNewLoading, setNewLoading] = useState(false)
+  const [isRemoveLoading, setRemoveLoading] = useState(false)
+  const [isRemoveAllLoading, setRemoveAllLoading] = useState(false)</p>
+<p>const removedTodo = useRef<string | null>(null)</p>
+<p>function resetInput() {
+    setNewTodo('')
+  }</p>
+<p>async function fetchTodos() {
+    setTodos(await getTodos())
+  }</p>
+<p>useEffect(() =&gt; {
+    (async () =&gt; {
+      setAppLoading(true)</p>
+<pre><code>  await fetchTodos()
+
+  setAppLoading(false)
+})()
+</code></pre>
+<p>}, [])</p>
+<p>async function submitAddTodo() {
+    setNewLoading(true)</p>
+<pre><code>await addTodo({ id: null, content: newTodo })
+await fetchTodos()
+
+setNewLoading(false)
+resetInput()
+</code></pre>
+<p>}</p>
+<p>async function submitDeleteTodo(todo: Todo) {
+    setRemoveLoading(true)
+    removedTodo.current = todo.id</p>
+<pre><code>await deleteTodo(todo)
+await fetchTodos()
+
+setRemoveLoading(false)
+removedTodo.current = null
+resetInput()
+</code></pre>
+<p>}</p>
+<p>async function submitDeleteAllTodos() {
+    setRemoveAllLoading(true)</p>
+<pre><code>await deleteAllTodos()
+await fetchTodos()
+
+setRemoveAllLoading(false)
+resetInput()
+</code></pre>
+<p>}</p>
+<p>if (isAppLoading) {
+    return <div className="loader"/>
+  }</p>
+<p>return (
+    &lt;&gt;...
+  )
+}</p>
+<pre><code>
+I omitted the JSX markup as that's not the point of today's exercise.
+
+I tried to handle all the waiting for API responses in a nice UX-friendly way, but I guess you'll be the judge of that. Although that made a bit of a mess in the component's state.
+
+The todo service functions look something like this:
+
+```typescript
+export interface Todo {
+  id: string | null;
+  content: string;
+}
+
+const BASE_URL = import.meta.env.DEV
+  ? 'http://localhost:8080'
+  : '/'
+const TODO_URL = `${BASE_URL}/api/todos`
+
+export async function getTodos(): Promise&lt;Todo[]&gt; {
+  const data = await fetchAPI(TODO_URL)
+  return await data.json()
+}
+
+export async function addTodo(newTodo: Todo): Promise&lt;Response&gt; {
+  return fetchAPI(TODO_URL, 'POST', JSON.stringify(newTodo))
+}
+
+export function deleteTodo(todo: Todo): Promise&lt;Response&gt; {
+  return fetchAPI(TODO_URL, 'DELETE', JSON.stringify(todo))
+}
+
+export function deleteAllTodos(): Promise&lt;Response&gt; {
+  return fetchAPI(`${TODO_URL}/all`, 'DELETE')
+}
+
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+
+async function fetchAPI(url: string, method: HttpMethod = 'GET', body?: string): Promise&lt;Response&gt; {
+  return fetch(url, {
+    method,
+    headers: {
+      ...(method !== 'GET' &amp;&amp; { 'Content-Type': 'application/json' })
+    },
+    body
+  })
+}
+
+</code></pre>
+<p>It's not avery clean or a robust solution, but for the sake of this exercise, I tried to avoid too much duplication even while using the built-in fetch API. Also, the error handling and retrying of requests is completely missing. Now we'll try to improve upon this with the React Query library.</p>
 <h2 id="react-query">React Query</h2>
-<p>React Query learning here.</p>
+<p>WIP</p>
 
 
 
