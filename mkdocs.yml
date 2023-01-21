@@ -4,3 +4,10 @@ docs_dir: pages
 
 theme:
   name: material
+  features:
+    - navigation.tabs
+
+nav:
+  - 'Home': 'index.md'
+  - 'Posts':
+    - 'Fetching data in React': 'posts/fetching-data-in-react.md'
