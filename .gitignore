@@ -4,3 +4,9 @@
 *.iml
 # Editor-based HTTP Client requests
 /httpRequests/
+
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
