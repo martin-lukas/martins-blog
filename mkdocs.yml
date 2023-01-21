@@ -1,3 +1,6 @@
 site_name: Martin's Tech Blog
 site_dir: docs
 docs_dir: pages
+
+theme:
+  name: material
