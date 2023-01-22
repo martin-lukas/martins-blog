@@ -3,9 +3,24 @@ site_dir: docs
 docs_dir: pages
 
 theme:
-  name: material
+  name: mkdocs
+  nav_style: dark
+  highlightjs: true
+  hljs_languages:
+    - java
+    - typescript
+    - ts
+    - tsx
+  include_homepage_in_sidebar: false
+  include_sidebar: false
   features:
     - navigation.tabs
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
 
 nav:
   - 'Home': 'index.md'

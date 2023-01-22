@@ -10,7 +10,7 @@ I'll be trying the methods on an example todo app I prepared. The app looks some
 
 The implementation is very trivial. It looks something like this:
 
-```typescript
+```tsx
 function App() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [newTodo, setNewTodo] = useState<string>("")
@@ -88,7 +88,7 @@ I tried to handle all the waiting for API responses in a nice UX-friendly way, b
 
 The todo service functions look something like this:
 
-```typescript
+```ts
 export interface Todo {
   id: string | null;
   content: string;
