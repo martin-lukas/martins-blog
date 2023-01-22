@@ -40,7 +40,7 @@ The conversion uses the concept of "automatic unboxing" of the `Integer` object.
 
 We could also stick to `Stream<Integer>` only, by using `reduce(Integer, BinaryOperator<Integer>)` instead of `sum()`. That would look something like - `reduce(0, (a, b) -> a + b)`. The `0` is the initial value, and `a` is always the previous element of the stream, `b` is the following, and the result of the function is set into `a` again. That way, the stream gets "reduced" into a single value. This is more verbose, and less clear from just glancing at it what the goal is. The operation `sum()` is definitely much clearer.
 
-&NewLine;
+&nbsp;
 
 After this, I needed a class to easily manage the creation of many elves from a very long string. I decided to name it `ElfManager`. I need a method for parsing the elven string, called `createElves(String)`.
 
@@ -69,7 +69,7 @@ static Optional<Elf> getElfWithMostCalories(List<Elf> elves) {
 
 For this method, I added a `Comparator` object into `Elf` to reuse the behavior of comparing based on total carried calories. Thanks to this, we can use the `max()` operation which finds the maximum in the stream based on this `Comparator`. It will then be easy to get the solution to part 1 from this method.
 
-&NewLine;
+&nbsp;
 
 Now comes the time to finally calculate the first solution. For that, we need to read the input text file, and then use the prepared methods to get the result. I created a helper class `FileUtils` to easily read the file:
 
@@ -87,7 +87,7 @@ public class FileUtils {
 }
 ```
 
-&NewLine;
+&nbsp;
 
 Let's get the result with this code:
 
@@ -144,6 +144,6 @@ System.out.println(sumOfCalories);
 
 This gives the correct solution as well. And it's pretty readable too, at least in my opinion.
 
-&NewLine;
+&nbsp;
 
 So there we have it, a bit verbose solution to a pretty simple programming problem. But I feel like I've created a bit of a framework for dealing with the other exercises on the following days.
