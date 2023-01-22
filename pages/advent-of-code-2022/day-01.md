@@ -32,7 +32,7 @@ record Elf(List<Integer> calories) {
 
 You can notice a heavy use of Streams. I'd point out in the method `totalCalories()`, I use the operation `mapToInt(i -> i)`, which may seem a bit strange to some.
 
-### Conversion from `Stream<Integer>` to `IntStream`
+#### Conversion from `Stream<Integer>` to `IntStream`
 
 The only purpose of this operation is to convert the `Stream<Integer>` object into an `IntStream` stream of primitives. The terminal operation `sum()` is available only for `IntStream`, because it's not useful for all objects like the other terminal operations for `Stream<T>`.
 
