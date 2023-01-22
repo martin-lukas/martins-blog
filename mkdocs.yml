@@ -12,3 +12,5 @@ nav:
   - 'Posts':
     - 'Fetching data in React': 'posts/fetching-data-in-react.md'
     - 'Styled Components with React': 'posts/styled-components-with-react.md'
+  - 'Advent of Code 2022':
+    - 'Day 1 - Counting Calories': 'advent-of-code-2022/day-01.md'
