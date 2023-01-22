@@ -145,7 +145,7 @@ I decided to try this challenge using Java, specifically Java 17, as I'd like to
 <p>The only purpose of this operation is to convert the <code>Stream&lt;Integer&gt;</code> object into an <code>IntStream</code> stream of primitives. The terminal operation <code>sum()</code> is available only for <code>IntStream</code>, because it's not useful for all objects like the other terminal operations for <code>Stream&lt;T&gt;</code>.</p>
 <p>The conversion uses the concept of "automatic unboxing" of the <code>Integer</code> object. Another way would be to use the operation <code>mapToInt(Integer::intValue)</code>, which would do the same, just in a more verbose way.</p>
 <p>We could also stick to <code>Stream&lt;Integer&gt;</code> only, by using <code>reduce(Integer, BinaryOperator&lt;Integer&gt;)</code> instead of <code>sum()</code>. That would look something like - <code>reduce(0, (a, b) -&gt; a + b)</code>. The <code>0</code> is the initial value, and <code>a</code> is always the previous element of the stream, <code>b</code> is the following, and the result of the function is set into <code>a</code> again. That way, the stream gets "reduced" into a single value. This is more verbose, and less clear from just glancing at it what the goal is. The operation <code>sum()</code> is definitely much clearer.</p>
-<h3 id="_1"></h3>
+<p>&NewLine;</p>
 <p>After this, I needed a class to easily manage the creation of many elves from a very long string. I decided to name it <code>ElfManager</code>. I need a method for parsing the elven string, called <code>createElves(String)</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">class</span> <span class="nc">ElfManager</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Elf</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">createElves</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">caloriesString</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -165,7 +165,7 @@ I decided to try this challenge using Java, specifically Java 17, as I'd like to
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>For this method, I added a <code>Comparator</code> object into <code>Elf</code> to reuse the behavior of comparing based on total carried calories. Thanks to this, we can use the <code>max()</code> operation which finds the maximum in the stream based on this <code>Comparator</code>. It will then be easy to get the solution to part 1 from this method.</p>
-<h3 id="_2"></h3>
+<p>&NewLine;</p>
 <p>Now comes the time to finally calculate the first solution. For that, we need to read the input text file, and then use the prepared methods to get the result. I created a helper class <code>FileUtils</code> to easily read the file:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">FileUtils</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">   </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">PREFIX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;src/main/resources/&quot;</span><span class="p">;</span>
@@ -179,7 +179,7 @@ I decided to try this challenge using Java, specifically Java 17, as I'd like to
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="_3"></h3>
+<p>&NewLine;</p>
 <p>Let's get the result with this code:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">String</span><span class="w"> </span><span class="n">elvenString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FileUtils</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="s">&quot;day01/elf-calories.txt&quot;</span><span class="p">);</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">List</span><span class="o">&lt;</span><span class="n">Elf</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ElfManager</span><span class="p">.</span><span class="na">createElves</span><span class="p">(</span><span class="n">elvenString</span><span class="p">);</span>
@@ -219,7 +219,7 @@ I decided to try this challenge using Java, specifically Java 17, as I'd like to
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sumOfCalories</span><span class="p">);</span>
 </code></pre></div>
 <p>This gives the correct solution as well. And it's pretty readable too, at least in my opinion.</p>
-<h3 id="_4"></h3>
+<p>&NewLine;</p>
 <p>So there we have it, a bit verbose solution to a pretty simple programming problem. But I feel like I've created a bit of a framework for dealing with the other exercises on the following days.</p></div>
             </div>
         </div>
