@@ -1,5 +1,7 @@
 # Day 1 - Snack carrying elves
 
+[Advent of Code 2022 - Day 1](https://adventofcode.com/2022/day/1)
+
 This is the first day of the Advent of Code 2022 challenges.
 I decided to try this challenge using Java, specifically Java 17, as I'd like to improve especially my Stream API knowledge.
 
