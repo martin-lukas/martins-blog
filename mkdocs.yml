@@ -24,6 +24,6 @@ markdown_extensions:
 
 nav:
   - 'Home': 'index.md'
-  - 'Posts':
-    - 'Fetching data in React': 'posts/fetching-data-in-react.md'
-    - 'Styled Components with React': 'posts/styled-components-with-react.md'
+  - 'Front-End':
+    - 'Fetching data in React': 'frontend/react-query.md'
+    - 'Styled Components with React': 'frontend/styled-components.md'
