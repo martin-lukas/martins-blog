@@ -25,7 +25,8 @@ h2 {
 
 hr {
     background-color: var(--text-color);
-    border-color: var(--text-color);
+    height: 1px;
+    border: none;
 }
 
 .wrapper {
