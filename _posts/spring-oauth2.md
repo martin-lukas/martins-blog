@@ -1,6 +1,7 @@
-layout: page
+layout: post
 title: "Using OAuth2 with Spring Security"
-permalink: /security/spring-security-oauth2
+date: YYYY-MM-DD hh:mm:ss -0000
+categories: security spring
 
 When learning about OAuth2, its complexity cannot be bypassed. Sometimes you just need to read the docs. In this instance, these are the [RFC-6749](https://www.rfc-editor.org/rfc/rfc6749).
 
