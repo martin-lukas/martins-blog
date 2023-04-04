@@ -1,7 +1,9 @@
+---
 layout: post
 title: "Using OAuth2 with Spring Security"
 date: 2023-04-03 04:16:00 -0000
 categories: security spring
+---
 
 When learning about OAuth2, its complexity cannot be bypassed. Sometimes you just need to read the docs. In this instance, these are the [RFC-6749](https://www.rfc-editor.org/rfc/rfc6749).
 
