@@ -1,12 +1,3 @@
----
-layout: post
-title: "Test Post Title"
-date: 2023-04-04
-categories: test test2
----
-
-# Header 1 article
-
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
 
 [Link to another page](./another-page.html).
