@@ -1,0 +1,58 @@
+body {
+  font-size: 1.3em;
+  padding: 50px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.motto {
+  font-size: 2.4em;
+  text-align: center;
+}
+
+.interests {
+  text-align: center;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #333; /* Or whatever color you prefer */
+}
+.line::before,
+.line::after {
+  content: "";
+  flex: 1;
+  border-bottom: 2px solid #333; /* Or whatever color you prefer */
+}
+.line::before {
+  margin-right: 0.25em;
+}
+.line::after {
+  margin-left: 0.25em;
+}
+
+a {
+  color: black;
+}
+a:hover {
+  color: gray;
+}
+
+.go-back {
+  text-decoration: none;
+  font-size: 2em;
+}
+
+@media (max-width: 550px) {
+  body {
+    padding: 20px;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+  .motto {
+    font-size: 1.7em;
+  }
+}

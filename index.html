@@ -1,18 +1,24 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome to my tech blog!</title>
+    <meta name="description" content="Home page of Martin's tech blog" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+  </head>
+  <body>
+    <script type="text/javascript" src="/header.js"></script>
 
-<div class="posts">
-    {% for post in site.posts %}
-    <article class="post">
-
-        <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-
-        <div class="entry">
-            {{ post.excerpt }}
-        </div>
-
-        <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-    {% endfor %}
-</div>
+    <h2>Posts</h2>
+    <h3>2023</h3>
+    <ul>
+      <li>
+        Jul 16 -
+        <a href="posts/mac-remote.html">
+          MacRemote - Control your laptop from your phone
+        </a>
+      </li>
+    </ul>
+  </body>
+</html>
