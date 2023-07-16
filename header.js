@@ -2,7 +2,7 @@ const fragment = document.createDocumentFragment();
 
 const elements = [
   h1("Martin's Tech Blog", "motto"),
-  div(span("Interests - Start"), "line"),
+  div(span("Interests"), "line"),
   p("Automation -×- Functional programming -×- Backend tech", "interests"),
   hr(),
 ];
