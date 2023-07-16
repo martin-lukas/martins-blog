@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MacRemote - Control your laptop remotely</title>
+    <meta
+      name="description"
+      content="MacRemote enables remote control of you MacBook."
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+  </head>
+  <body>
+    <script type="text/javascript" src="/header.js"></script>
+
+    <a href="/" class="go-back">←</a>
+
+    <h1>MacRemote - Control your laptop from your phone</h1>
+
+    <h3>Goal</h3>
+    <p>Have a way to control my laptop remotely in some limited capacity.</p>
+    <h3>Motivation</h3>
+    <p>
+      My "Smart" TV has Netflix and other streaming platform apps, but some
+      content that I want to watch is not available there. That's when I usually
+      fetch my MacBook laptop, and connect it via HDMI to the TV.
+    </p>
+    <p>
+      However, the cable is quite short, so I usually set everything up for
+      watching, start the content, and stash the laptop under the TV. But when I
+      want to pause it, or go a bit forward/backward, I have to get up from the
+      sofa, and go open the laptop. As you can imagine, that gets annoying.
+    </p>
+    <p>
+      I could get a bluetooth keyboard and control it that way, but that's also
+      not ideal (bulky keyboard, battery could run out, have to make sure it's
+      connected, etc.).
+    </p>
+  </body>
+  <h3>Solution</h3>
+  <p>
+    I decided to go the hard way about this. I want to create an app running on
+    the laptop, and listening for requests from over the network. Then I just
+    open a web UI on my phone, and start controlling the laptop by sending some
+    requests. The app running on the laptop then performs actions based on the
+    incoming requests.
+  </p>
+  <p>
+    You could object - there are existing apps that do similar things, and
+    probably much more powerful. And you're probably right. However, I want the
+    UI to be really simple, so I can easily control it in the dark, and have big
+    buttons for the commonly used actions, like pausing the movie, or changing
+    the volume. You know, kinda like a TV remote. There probably are tools that
+    would do exactly that, but I don't mind creating my own, especially if I'll
+    enjoy the process itself.
+  </p>
+  <p>
+    So let's start. First I need to create a simple web server that can listen
+    to requests. I chose these technologies:
+  </p>
+  <ul>
+    <li>Language: Scala (learning it for work)</li>
+    <li>Libraries: Http4s, Cats Effect</li>
+  </ul>
+  <p></p>
+</html>
