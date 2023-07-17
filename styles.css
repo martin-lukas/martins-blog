@@ -1,58 +1,42 @@
+:root {
+  --main-bg-color: #fff;
+  --main-fg-color: #000;
+  --main-text-color: #000;
+  --link-hover-color: #777;
+}
 body {
-  font-size: 1.3em;
-  padding: 50px;
   max-width: 800px;
   margin: 0 auto;
+  color: var(--main-text-color);
+  font-size: 1.3em;
+  font-family: system-ui;
+  background-color: var(--main-bg-color);
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 1px;
 }
+h1, h2, h3, h4, h5, h6, p, li, a { color: var(--main-text-color) }
+p, li { line-height: 1.7 }
+a { text-decoration: underline }
+a:hover { color: var(--link-hover-color) }
+.motto { font-size: 2.4em; text-align: center }
+.interests { display: block; text-align: center; padding: 8px 0 }
+.home { text-decoration: none; font-size: 2em }
 
-.motto {
-  font-size: 2.4em;
-  text-align: center;
-}
-
-.interests {
-  text-align: center;
+@media (max-width: 550px) {
+  body { padding: 20px }
+  h1 { font-size: 1.5em }
+  .motto { font-size: 1.7em }
 }
 
 .line {
   display: flex;
-  align-items: center;
-  text-align: center;
-  color: #333; /* Or whatever color you prefer */
+  align-items: center; text-align: center;
+  color: var(--main-fg-color);
 }
-.line::before,
-.line::after {
-  content: "";
-  flex: 1;
-  border-bottom: 2px solid #333; /* Or whatever color you prefer */
+.line::before, .line::after {
+  content: ""; flex: 1;
+  border-bottom: 2px solid var(--main-fg-color);
 }
-.line::before {
-  margin-right: 0.25em;
-}
-.line::after {
-  margin-left: 0.25em;
-}
-
-a {
-  color: black;
-}
-a:hover {
-  color: gray;
-}
-
-.go-back {
-  text-decoration: none;
-  font-size: 2em;
-}
-
-@media (max-width: 550px) {
-  body {
-    padding: 20px;
-  }
-  h1 {
-    font-size: 1.5em;
-  }
-  .motto {
-    font-size: 1.7em;
-  }
-}
+.line::before { margin-right: 0.25em }
+.line::after { margin-left: 0.25em }
