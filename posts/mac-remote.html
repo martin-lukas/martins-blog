@@ -9,6 +9,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link rel="stylesheet" href="/lib/highlightjs/github.min.css" />
+    <script src="/lib/highlightjs/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
   </head>
   <body>
     <script type="text/javascript" src="/header.js"></script>
@@ -59,8 +64,139 @@
     to requests. I chose these technologies:
   </p>
   <ul>
-    <li>Language: Scala (learning it for work)</li>
+    <li>Language: Scala</li>
     <li>Libraries: Http4s, Cats Effect</li>
   </ul>
-  <p></p>
+  <pre><code>
+    import cats.effect.*
+    import org.http4s.server.blaze.*
+
+    object Server extends IOApp.Simple {
+      override def run: IO[Unit] =
+        BlazeServerBuilder[IO]
+          .bindHttp(8050, "0.0.0.0")
+          .withHttpApp(MediaController.routes.orNotFound)
+          .serve
+          .compile
+          .drain    
+    }
+  </code></pre>
+  <p>
+    The bound IP address <code>0.0.0.0</code> allows for the server to listen on
+    both the IP for the local network, as well as localhost, for local
+    development.
+  </p>
+  <p>
+    Next, I'll create the controller for handling media actions
+    <code>MediaController</code>:
+  </p>
+  <pre><code>
+    import cats.effect.*
+    import org.http4s.*
+    import org.http4s.dsl.io.*
+    import org.http4s.headers.`Content-Type`
+    import org.http4s.MediaType
+    import scala.io.Source
+
+    object MediaController {
+      val routes: HttpRoutes[IO] = HttpRoutes.of[IO] {
+        case GET -> Root / "media" / subPath =>
+          subPath match {
+            case "ui" =>
+              val html = Source.fromResource("index.html")
+                .getLines
+                .mkString("\n")
+              Ok(html).map(_.withContentType(
+                `Content-Type`(MediaType.text.html, Charset.`UTF-8`)
+              ))
+            case "maximize" =>
+              triggerKeysAndComplete("F")
+            case "pause" =>
+              triggerKeysAndComplete("SPACE")
+            case "volumeup" =>
+              triggerKeysAndComplete("UP")
+            case "volumedown" =>
+              triggerKeysAndComplete("DOWN")
+            case "forward" =>
+              triggerKeysAndComplete("RIGHT")
+            case "backward" =>
+              triggerKeysAndComplete("LEFT")
+            case _ =>
+              NotFound("Page not found")
+          }
+      }
+    
+      private def triggerKeysAndComplete(keys: String*) = {
+        // TODO: trigger key events in the OS
+        NoContent()
+      }
+    }    
+  </code></pre>
+  <p>
+    These actions are the ones I need the most frequently. Maybe in time, I'll
+    add some more.
+  </p>
+  <p>
+    The UI itself will run at <code>/media/ui</code>, as you can see from the
+    first endpoint.
+  </p>
+  <p>
+    What's left is the service that can trigger these actions in the OS. I've
+    made this program specifically for MacOS, so I'll call the class
+    <code>AppleScript</code>:
+  </p>
+  <pre><code>
+    import scala.sys.process.*
+
+    object AppleScript {
+      def triggerKeys(keys: List[String]): Int = {
+        keys match {
+          case List("F") =>
+            execute("""tell application "System Events" to keystroke "f"""")
+          case List("SPACE") =>
+            execute("""tell application "System Events" to keystroke space""")
+          case List("LEFT") =>
+            execute("""tell application "System Events" to key code 123""")
+          case List("RIGHT") =>
+            execute("""tell application "System Events" to key code 124""")
+          case List("DOWN") =>
+            execute("""tell application "System Events" to key code 125""")
+          case List("UP") =>
+            execute("""tell application "System Events" to key code 126""")
+          case _ =>
+            throw new Exception(s"Unsupported keys were triggered: ${keys.mkString(", ")}")
+        }
+      }
+    
+      private def execute(script: String): Int =
+        Seq("osascript", "-e", script).!
+    }
+  </code></pre>
+  <p>
+    Now all that's left is to replace the TODO in the previous file with a call
+    to this class:
+  </p>
+  <pre><code>
+    private def triggerKeysAndComplete(keys: String*) = {
+      triggerKeys(keys.toList)
+      NoContent()
+    }
+  </code></pre>
+  <p>
+    I won't describe the UI itself in detail, it's just a couple of buttons with
+    some styling sprinkled on top, and each button sends a simple GET request to
+    the server. The current state of the UI:
+  </p>
+  <img src="/assets/images/mac-remote-ui.png" alt="MacRemote UI" />
+  <p>
+    I admit, the UI is a bit crude. But that wasn't the focus for me. I mainly
+    focused on having big buttons, and not being too disturbed by a bright
+    screen when watching TV.
+  </p>
+  <p>
+    The last piece of the puzzle was to make this server run automatically on
+    startup, so the UI would be always available anytime I want to connect my
+    laptop to the TV, without thinking about it. In my case, I chose the app
+    Automator, that comes with the OS.
+  </p>
 </html>
